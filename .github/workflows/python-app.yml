@@ -28,6 +28,6 @@ jobs:
       run: |
         # stop the build if there are Python syntax errors or undefined names
         isort --virtual-env .venv warehouse/*.py && black .
-    - name: Test with pytest
+    - name: Test with coverage
       run: |
         coverage run --branch -m unittest discover --pattern=tests/*.py && coverage html
