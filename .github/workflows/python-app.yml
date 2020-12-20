@@ -27,7 +27,7 @@ jobs:
     - name: Lint with black
       run: |
         # stop the build if there are Python syntax errors or undefined names
-        make lint
+        isort --virtual-env .venv warehouse/*.py && black .
     - name: Test with pytest
       run: |
-        make test
+        coverage run --branch -m unittest discover --pattern=tests/*.py && coverage html
