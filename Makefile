@@ -21,6 +21,9 @@ docs:
 	@poetry run sphinx-apidoc -f -o docs/source/ warehouse ./tests/*.py
 	@cd docs && make html
 
+superuser:
+	@poetry run python manage.py createsuperuser
+
 migrate:
 	@poetry run python manage.py migrate
 

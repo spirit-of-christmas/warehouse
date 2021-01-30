@@ -7,6 +7,8 @@ authors = ["NMunro"]
 [tool.poetry.dependencies]
 python = "^3.9"
 Django = "^3.1.4"
+reportlab = "^3.5.56"
+python-decouple = "^3.4"
 
 [tool.poetry.dev-dependencies]
 coverage = "^4.5"
