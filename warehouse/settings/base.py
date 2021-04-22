@@ -9,6 +9,7 @@ ALLOWED_HOSTS = config(
 
 # Application definition
 INSTALLED_APPS = [
+    "inventory.apps.InventoryConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
