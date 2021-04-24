@@ -1,6 +1,13 @@
 warehouse package
 =================
 
+Subpackages
+-----------
+
+.. toctree::
+
+    warehouse.settings
+
 Submodules
 ----------
 
@@ -8,14 +15,6 @@ warehouse.asgi module
 ---------------------
 
 .. automodule:: warehouse.asgi
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-warehouse.settings module
--------------------------
-
-.. automodule:: warehouse.settings
     :members:
     :undoc-members:
     :show-inheritance:

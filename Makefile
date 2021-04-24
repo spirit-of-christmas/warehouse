@@ -1,34 +1,44 @@
-.PHONY: env run test lint requires docs migrations migrate
+.PHONY: env clean start stop build test requires lint docs superuser migrate migrations
 .DEFAULT: env
 
 env:
 	@python -m venv .venv
 	@poetry install
 
-run:
-	@source .env; poetry run python manage.py runserver 0.0.0.0:8000
+clean:
+	@rm -rf .venv
+
+start:
+	@docker-compose up -d
+
+stop:
+	@docker container stop warehouse_web_1
+	@docker container rm warehouse_web_1
+	@docker container stop warehouse_database_1
+	@docker container rm warehouse_database_1
+
+build:
+	@docker-compose build
 
 test:
-	@source .env; poetry run coverage run --branch -m unittest discover --pattern=tests/*.py && poetry run coverage html
+	@docker exec -it warehouse_web_1 coverage run --branch -m unittest discover --pattern=tests/*.py
+	@docker exec -it warehouse_web_1 coverage html
 
 requires:
-	@poetry export -f requirements.txt --output requirements.txt
+	@poetry export --dev -f requirements.txt --output requirements.txt
 
 lint:
-	@source .env; poetry run isort --virtual-env .venv warehouse/*.py && poetry run black . --exclude migrations
-
-gunicorn:
-	@source .env; poetry run gunicorn
+	@docker exec -it warehouse_web_1 isort --virtual-env .venv warehouse/*.py
+	@docker exec -it warehouse_web_1 black . --exclude migrations
 
 docs:
-	@source .env; poetry run sphinx-apidoc -f -o docs/source/ warehouse ./tests/*.py
-	@cd docs && make html
+	@docker exec -it warehouse_web_1 /bin/bash -c "sphinx-apidoc -f -o docs/source/ warehouse ./tests/*.py && cd docs && make html"
 
 superuser:
-	@source .env; poetry run python manage.py createsuperuser
+	@docker exec -it warehouse_web_1 python manage.py createsuperuser
 
-migrate:
-	@source .env; poetry run python manage.py migrate
+migrate: start
+	@docker exec -it warehouse_web_1 python manage.py migrate
 
 migrations:
-	@source .env; poetry run python manage.py makemigrations
+	@docker exec -it warehouse_web_1 python manage.py makemigrations
