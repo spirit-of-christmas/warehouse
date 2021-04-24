@@ -10,6 +10,7 @@ ALLOWED_HOSTS = config(
 # Application definition
 INSTALLED_APPS = [
     "inventory.apps.InventoryConfig",
+    "taggit",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -86,3 +87,4 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+TAGGIT_CASE_INSENSITIVE = True
