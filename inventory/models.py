@@ -1,7 +1,10 @@
+from django.core.files.base import ContentFile
 from django.db import models
 from django.contrib.postgres.fields import IntegerRangeField
 from django.contrib.postgres.validators import RangeMinValueValidator, RangeMaxValueValidator
 from taggit.managers import TaggableManager
+
+from .barcodes import BarCode
 
 
 class Department(models.Model):
@@ -26,7 +29,7 @@ class Quality(models.Model):
         return self.title
 
 
-class StockItem(models.Model):
+class Product(models.Model):
     GENDERS = [("male", "Male"), ("female", "Female"), ("both", "Both")]
 
     title = models.CharField(max_length=255, unique=True)
@@ -44,6 +47,16 @@ class StockItem(models.Model):
     )
     description = models.TextField()
     quantity = models.IntegerField(default=0)
+    barcode_id = models.BigIntegerField(default=0)
+    barcode = models.ImageField(upload_to="barcodes/", default='default.png')
 
     def __str__(self):
         return self.title
+
+    def generate_barcode(self):
+        barcode = BarCode(self.barcode_id)
+        self.barcode.save(f"/barcodes/{self.barcode_id}.gif", ContentFile(barcode.asString("gif")), save=False)
+
+    def save(self, *args, **kwargs):
+        self.generate_barcode()
+        super(Product, self).save(*args, **kwargs)
