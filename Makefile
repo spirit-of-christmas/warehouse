@@ -1,4 +1,4 @@
-.PHONY: env clean start stop build test requires lint docs superuser migrate migrations
+.PHONY: env clean start stop build test requires lint docs superuser migrate migrations createsuperuser
 .DEFAULT: env
 
 env:
@@ -42,3 +42,6 @@ migrate: start
 
 migrations:
 	@docker exec -it warehouse_web_1 python manage.py makemigrations
+
+createsuperuser:
+	@docker exec -it warehouse_web_1 python manage.py createsuperuser --noinput
