@@ -13,6 +13,8 @@ gunicorn = "^20.0.4"
 dj-database-url = "^0.5.0"
 psycopg2-binary = "^2.8.6"
 django-taggit = "^1.4.0"
+dropbox = "^11.7.0"
+django-storages = "^1.11.1"
 
 [tool.poetry.dev-dependencies]
 coverage = "^4.5"
