@@ -11,7 +11,7 @@ class Department(models.Model):
         return self.name
 
 
-class Type(models.Model):
+class Category(models.Model):
     name = models.CharField(max_length=255)
 
     def __str__(self):
@@ -31,7 +31,7 @@ class StockItem(models.Model):
 
     title = models.CharField(max_length=255, unique=True)
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
-    type = models.ForeignKey(Type, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     quality = models.ForeignKey(Quality, on_delete=models.CASCADE)
     gender = models.CharField(max_length=255, choices=GENDERS)
     tags = TaggableManager()
