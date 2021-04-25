@@ -53,10 +53,11 @@ class Product(models.Model):
     def __str__(self):
         return self.title
 
-    def generate_barcode(self):
-        barcode = BarCode(self.barcode_id)
-        self.barcode.save(f"/barcodes/{self.barcode_id}.gif", ContentFile(barcode.asString("gif")), save=False)
+    @property
+    def in_stock(self):
+        return self.quantity > 0
 
     def save(self, *args, **kwargs):
-        self.generate_barcode()
+        barcode = BarCode(self.barcode_id)
+        self.barcode.save(f"/barcodes/{self.barcode_id}.gif", ContentFile(barcode.asString("gif")), save=False)
         super(Product, self).save(*args, **kwargs)
