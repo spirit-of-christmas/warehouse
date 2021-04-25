@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Product {{ produce.title }}{% endblock %}
+{% block content %}
+    <h1>Search:</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <label for="barcode" />
+        <input type="number" id="barcode" name="barcode" />
+        <input type="submit" value="Search" />
+    </form>
+
+    <ol>
+        {% for result in results %}
+            <li>{{ result.title }}: {{ result.quantity }}</li>
+        {% endfor %}
+    </ol>
+{% endblock %}
