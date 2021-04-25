@@ -1,29 +1,25 @@
+from django.conf import settings
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
-from reportlab.lib.units import mm
-from reportlab.graphics.barcode import createBarcodeDrawing
-from reportlab.graphics.shapes import Drawing, String
-from reportlab.graphics.charts.barcharts import HorizontalBarChart
+from django.shortcuts import get_object_or_404, render
+from django.views.generic import TemplateView
+
+from . import models
 
 
-def index(request):
-    return HttpResponse("Hello World")
+class ProductSearchView(LoginRequiredMixin, TemplateView):
+    template_name = "inventory/product_search.html"
 
+    def get(self, request):
+        return render(request, self.template_name, {})
 
-class MyBarcodeDrawing(Drawing):
-    def __init__(self, text_value, *args, **kw):
-        barcode = createBarcodeDrawing(
-            "Code128",
-            value=text_value,
-            barHeight=14 * mm,
-            humanReadable=True,
-            barWidth=1 * mm,
-        )
-        Drawing.__init__(self, barcode.width, barcode.height, *args, **kw)
-        self.add(barcode, name="barcode")
+    def post(self, request):
+        results = models.Product.objects.filter(barcode_id=request.POST.get("barcode"))
+        return render(request, self.template_name, {"results": results})
 
+class ProductView(LoginRequiredMixin, TemplateView):
+    template_name = "inventory/product.html"
 
-def barcode(request):
-    print(request.GET)
-    d = MyBarcodeDrawing(request.GET.get("name", "n/a"))
-    binaryStuff = d.asString("gif")
-    return HttpResponse(binaryStuff, "image/gif")
+    def get(self, request, product_id):
+        product = get_object_or_404(models.Product, pk=product_id)
+        return render(request, self.template_name, {"product": product})

@@ -88,3 +88,7 @@ USE_TZ = True
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 TAGGIT_CASE_INSENSITIVE = True
+
+DEFAULT_FILE_STORAGE = "storages.backends.dropbox.DropBoxStorage"
+DROPBOX_OAUTH2_TOKEN = config("DROPBOX_AUTH_TOKEN")
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
