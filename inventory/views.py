@@ -14,6 +14,5 @@ def barcode(request):
     binaryStuff = barcode.asString("gif")
     dbx = dropbox.Dropbox(settings.DROPBOX_OAUTH2_TOKEN)
     dbx.files_upload(binaryStuff, f"/{code}.gif")
-    print(dbx.files_get_metadata(f"/{code}.gif").server_modified)
 
     return HttpResponse(binaryStuff, "image/gif")
