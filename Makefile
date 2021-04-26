@@ -25,7 +25,7 @@ test:
 	@docker exec -it warehouse_web_1 coverage html
 
 requires:
-	@poetry export --dev -f requirements.txt --output requirements.txt
+	@poetry export --dev -f requirements.txt --output requirements.txt --without-hashes
 
 lint:
 	@docker exec -it warehouse_web_1 isort --virtual-env .venv warehouse/*.py
