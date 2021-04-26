@@ -1,4 +1,4 @@
-.PHONY: env clean start stop build test requires lint docs superuser migrate migrations createsuperuser
+.PHONY: env clean start stop build test requires lint docs migrate migrations createsuperuser
 .DEFAULT: env
 
 env:
@@ -7,6 +7,9 @@ env:
 
 clean:
 	@rm -rf .venv
+	@rm -rf poetry.lock
+	@rm -rf requirements.txt
+	@rm -rf requirements-dev.txt
 
 start:
 	@docker-compose up -d
@@ -25,7 +28,10 @@ test:
 	@docker exec -it warehouse_web_1 coverage html
 
 requires:
-	@poetry export --dev -f requirements.txt --output requirements.txt --without-hashes
+	@poetry export -f requirements.txt --output requirements.txt --without-hashes
+
+requires-dev:
+	@poetry export --dev -f requirements.txt --output requirements-dev.txt --without-hashes
 
 lint:
 	@docker exec -it warehouse_web_1 isort --virtual-env .venv warehouse/*.py
@@ -34,10 +40,7 @@ lint:
 docs:
 	@docker exec -it warehouse_web_1 /bin/bash -c "sphinx-apidoc -f -o docs/source/ warehouse ./tests/*.py && cd docs && make html"
 
-superuser:
-	@docker exec -it warehouse_web_1 python manage.py createsuperuser
-
-migrate: start
+migrate:
 	@docker exec -it warehouse_web_1 python manage.py migrate
 
 migrations:
