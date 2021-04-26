@@ -7,8 +7,16 @@ from taggit.managers import TaggableManager
 from .barcodes import BarCode
 
 
+class Location(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+
+
 class Department(models.Model):
     name = models.CharField(max_length=255)
+    location = models.ForeignKey(Location, on_delete=models.CASCADE, default=1)
 
     def __str__(self):
         return self.name
