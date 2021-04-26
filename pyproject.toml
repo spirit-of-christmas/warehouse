@@ -16,6 +16,7 @@ django-taggit = "^1.4.0"
 dropbox = "^11.7.0"
 django-storages = "^1.11.1"
 django-money = "^1.3.1"
+whitenoise = "^5.2.0"
 
 [tool.poetry.dev-dependencies]
 coverage = "^4.5"
