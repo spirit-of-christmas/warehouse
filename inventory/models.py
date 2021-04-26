@@ -2,6 +2,7 @@ from django.core.files.base import ContentFile
 from django.db import models
 from django.contrib.postgres.fields import IntegerRangeField
 from django.contrib.postgres.validators import RangeMinValueValidator, RangeMaxValueValidator
+from djmoney.models.fields import MoneyField
 from taggit.managers import TaggableManager
 
 from .barcodes import BarCode
@@ -41,6 +42,7 @@ class Product(models.Model):
     GENDERS = [("male", "Male"), ("female", "Female"), ("both", "Both")]
 
     title = models.CharField(max_length=255, unique=True)
+    price = MoneyField(max_digits=14, decimal_places=2, default_currency="GBP", default=0)
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     quality = models.ForeignKey(Quality, on_delete=models.CASCADE)
