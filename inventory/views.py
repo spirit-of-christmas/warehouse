@@ -8,14 +8,16 @@ from . import models
 
 
 class ProductSearchView(LoginRequiredMixin, TemplateView):
-    template_name = "inventory/product_search.html"
+    template_search_name = "inventory/product_search.html"
+    template_results_name = "inventory/product_results.html"
 
     def get(self, request):
-        return render(request, self.template_name, {})
+        return render(request, self.template_search_name, {})
 
     def post(self, request):
         results = models.Product.objects.filter(barcode_id=request.POST.get("barcode"))
-        return render(request, self.template_name, {"results": results})
+        return render(request, self.template_results_name, {"results": results})
+
 
 class ProductView(LoginRequiredMixin, TemplateView):
     template_name = "inventory/product.html"
