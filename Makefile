@@ -1,4 +1,4 @@
-.PHONY: env clean start stop build test requires lint docs migrate migrations createsuperuser
+.PHONY: env clean start stop build test requires lint docs migrate migrations createsuperuser logs
 .DEFAULT: env
 
 env:
@@ -22,6 +22,9 @@ stop:
 
 build:
 	@docker-compose build
+
+logs:
+	@docker logs --follow warehouse_web_1
 
 test:
 	@docker exec -it warehouse_web_1 coverage run --branch -m unittest discover --pattern=tests/*.py

@@ -38,7 +38,7 @@
     <tbody>
         {% for result in results %}
         <tr>
-            <td>{{ result.title }}</td>
+            <td><a href="{% url 'product' result.id %}">{{ result.title }}</a></td>
             <td>{{ result.category.name }}</td>
             <td>{{ result.quantity }}</td>
             <td>{{ result.quality }}</td>

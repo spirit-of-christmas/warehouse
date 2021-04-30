@@ -2,28 +2,31 @@
 
 {% block title %}Product {{ produce.title }}{% endblock %}
 {% block content %}
-    <form method="POST" action="">
-        {% csrf_token %}
-        <div class="form-group">
-            <label for="barcode">Barcode</label>
-            <input type="number" class="form-control" id="barcode" name="barcode" />
-        </div>
+<div class="row">
+    <div class="col">
+        <form method="POST" action="">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="search-type">Search Type</label>
+                <select id="search-type" name="search-type" class="form-control">
+                    <option value="barcode">Barcode</option>
+                    <option value="title">Title</option>
+                    <option value="keywords">Keywords</option>
+                </select>
+            </div>
 
-        <div class="form-group">
-            <label for="title">Title</label>
-            <input type="text" class="form-control" id="title" name="title" />
-        </div>
+            <div class="form-group">
+                <label for="query">Query</label>
+                <input type="text" class="form-control" id="query" name="query" />
+            </div>
 
-        <div class="form-group">
-            <label for="keyword">Keywords</label>
-            <input type="text" class="form-control" id="keywords" name="keywords" />
-        </div>
+            <br/>
 
-        <br/>
-
-        <div class="btn-group" role="group" aria-label="Basic example">
-            <input type="submit" value="Search" class="btn btn-success" />
-            <button type="button" class="btn btn-primary">Clear</button>
-        </div>
-    </form>
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <input type="submit" value="Search" class="btn btn-success" />
+                <button type="button" class="btn btn-primary">Clear</button>
+            </div>
+        </form>
+    </div>
+</div>
 {% endblock %}
